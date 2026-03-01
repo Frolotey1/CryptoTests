@@ -11,5 +11,6 @@
 #include <iomanip>
 #include <vector>
 #include <unordered_set>
+#include <locale>
 #endif // !
 
