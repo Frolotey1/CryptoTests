@@ -11,6 +11,5 @@
 #include <iomanip>
 #include <vector>
 #include <unordered_set>
-#include <Windows.h>
 #endif // !
 
