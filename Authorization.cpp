@@ -1,41 +1,47 @@
-
 #include "Authorization.h"
 #include "CryptoTestEasy.h"
 
-
-std::vector<User> users = { {"user", "user", "Êëèåíò"} };
+std::vector<User> users = { {"user", "user", "Client"} };
 std::string currentUserStatus;
 
 bool CheckLogin(const std::string& str)
 {
+    // Check length
     if (str.size() < 5 || str.size() > 20) {
-        std::cout << "Ошибка ввода логина\n";
+        std::cout << "Invalid login length. Must be between 5 and 20 characters.\n";
+        Sleep(1500);
         return false;
     }
-    
+
+    // Allowed characters (only letters)
     for (char c : str) {
         if (!isalpha(c)) {
-            std::cout << "Íåêîððåêòíûå ñèìâîëû â ëîãèíå. Ðàçðåøåíû òîëüêî áóêâû A-Z, a-z\n";
+            std::cout << "Invalid characters in login. Only letters A-Z, a-z are allowed.\n";
+            Sleep(1500);
             return false;
         }
     }
 
+    // Uniqueness
     for (const auto& user : users) {
         if (user.login == str) {
-         
-            std::cout << "Ïîëüçîâàòåëü ñ òàêèì ëîãèíîì óæå ñóùåñòâóåò!\n";
+            std::cout << "User with this login already exists!\n";
+            Sleep(1500);
             return false;
         }
     }
     return true;
 }
 
+// Check password
 bool CheckPass(const std::string& str) {
     if (str.size() < 5 || str.size() > 64) {
-        std::cout << "Ошибка ввода пароля\n";
+        std::cout << "Invalid password length! Must be between 5 and 64 characters.\n";
+        Sleep(1500);
         return false;
     }
 
+    // ASCII printable characters
     std::unordered_set<char> allowed;
     for (char c = '!'; c <= '~'; ++c) {
         allowed.insert(c);
@@ -43,11 +49,13 @@ bool CheckPass(const std::string& str) {
 
     for (char c : str) {
         if (allowed.find(c) == allowed.end()) {
-            std::cout << "Íåêîððåêòíûå ñèìâîëû â ïàðîëå. Ðàçðåøåíû òîëüêî ïå÷àòíûå ASCII ñèìâîëû.\n";
+            std::cout << "Invalid characters in password. Only printable ASCII characters allowed.\n";
+            Sleep(1500);
             return false;
         }
     }
 
+    // Special characters
     std::unordered_set<char> special = {
         '!', '@', '#', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+',
         '/', '?', '|', '\\', '\"', '\'', ',', '.', '>', '<', '~', '`', ':',
@@ -63,7 +71,8 @@ bool CheckPass(const std::string& str) {
     }
 
     if (specialCount < 3) {
-        std::cout << "Òðåáóåòñÿ ìèíèìóì 3 ñïåöèàëüíûõ ñèìâîëà\n";
+        std::cout << "At least 3 special characters are required.\n";
+        Sleep(1500);
         return false;
     }
 
@@ -75,51 +84,50 @@ bool Login() {
     std::string login, pass;
     while (true)
     {
-        std::cout << "\n=== ÊÐÈÏÒÎÃÐÀÔÈ×ÅÑÊÈÉ ÒÐÅÍÀÆ¨Ð ===\n";
-        std::cout << "\n=== Âõîä â ñèñòåìó ===\n";
-        std::cout << "1 – Âõîä\n";
-        std::cout << "2 – Ðåãèñòðàöèÿ\n";
-        std::cout << "0 – Âûõîä\n";
-        std::cout << "Âàø âûáîð: ";
+        std::cout << "\n=== CRYPTOGRAPHIC TRAINER ===\n";
+        std::cout << "\n=== Login ===\n";
+        std::cout << "1 � Login\n";
+        std::cout << "2 � Register\n";
+        std::cout << "0 � Exit\n";
+        std::cout << "Your choice: ";
         Getline(choose);
 
         if (choose == "0") {
             return false;
         }
         else if (choose == "1") {
-            
-            
             while (true) {
-                std::cout << "Ââåäèòå ëîãèí èëè \"exit\" äëÿ âîçâðàòà â ìåíþ: ";
+                std::cout << "Enter login or \"exit\" to return to menu: ";
                 Getline(login);
-                if (login == "exit") break; 
+                if (login == "exit") break;
 
-                std::cout << "Ââåäèòå ïàðîëü: ";
+                std::cout << "Enter password: ";
                 Getline(pass);
 
+                // Search in vector
                 bool found = false;
                 for (const auto& user : users) {
                     if (user.login == login && user.password == pass) {
                         currentUserStatus = user.status;
-                        std::cout << "\nÄîáðî ïîæàëîâàòü, " << login << "\n";
-                        std::cout << "Âàø ñòàòóñ: " << currentUserStatus << "\n";
+                        std::cout << "\nWelcome, " << login << "!\n";
+                        std::cout << "Your status: " << currentUserStatus << "\n";
                         system("pause");
                         return true;
                     }
                 }
 
                 if (!found) {
-                    std::cout << "Íåâåðíûé ëîãèí èëè ïàðîëü!\n";
+                    std::cout << "Invalid login or password!\n";
                     Err(1500);
                 }
             }
         }
         else if (choose == "2") {
+            // Registration
             RegisterUser();
-      
         }
         else {
-            Err(); 
+            Err(); // invalid input
         }
     }
 }
@@ -128,35 +136,37 @@ void RegisterUser()
 {
     std::string login, pass;
 
+    // Enter login
     while (true) {
         system("cls");
-        std::cout << "\t=== Ðåãèñòðàöèÿ íîâîãî ïîëüçîâàòåëÿ ===\n";
-        std::cout << "Ââåäèòå ëîãèí (îò 5 äî 20 ñèìâîëîâ, òîëüêî áóêâû) èëè \"exit\": \n";
+        std::cout << "\t=== Register New User ===\n";
+        std::cout << "Enter login (5-20 characters, only letters) or \"exit\": \n";
         Getline(login);
         if (login == "exit" || login == "Exit") {
-            std::cout << "Ðåãèñòðàöèÿ îòìåíåíà.\n";
+            std::cout << "Registration cancelled.\n";
+            Sleep(1500);
             return;
         }
         if (CheckLogin(login)) break;
     }
-    
+
+    // Enter password
     while (true) {
         system("cls");
-        std::cout << "\n=== ÊÐÈÏÒÎÃÐÀÔÈ×ÅÑÊÈÉ ÒÐÅÍÀÆ¨Ð ===\n";
-        std::cout << "\t=== Ðåãèñòðàöèÿ ===\n";
-        std::cout << "Ââåäèòå ïàðîëü (îò 5 äî 64 ñèìâîëîâ, ìèíèìóì 3 ñïåöñèìâîëà) èëè \"exit\": \n";
-      
+        std::cout << "\n=== CRYPTOGRAPHIC TRAINER ===\n";
+        std::cout << "\t=== Registration ===\n";
+        std::cout << "Enter password (5-64 characters, at least 3 special characters) or \"exit\": \n";
         Getline(pass);
         if (pass == "exit" || pass == "Exit") {
-            std::cout << "Ðåãèñòðàöèÿ îòìåíåíà.\n";
+            std::cout << "Registration cancelled.\n";
+            Sleep(1500);
             return;
         }
         if (CheckPass(pass)) break;
     }
 
-    users.push_back({ login, pass, "Êëèåíò" });
+    users.push_back({ login, pass, "Client" });
 
-    std::cout << "\nÏîëüçîâàòåëü óñïåøíî çàðåãèñòðèðîâàí\n";
-   
+    std::cout << "\nUser successfully registered!\n";
     system("pause");
 }
