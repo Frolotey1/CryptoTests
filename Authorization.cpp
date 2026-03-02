@@ -8,13 +8,11 @@ std::string currentUserStatus;
 
 bool CheckLogin(const std::string& str)
 {
-    // Ïðîâåðêà äëèíû
     if (str.size() < 5 || str.size() > 20) {
-        std::cout << "Íåäîïóñòèìàÿ äëèíà ëîãèíà. Îò 5 äî 20 ñèìâîëîâ\n";
+        std::cout << "Ошибка ввода логина\n";
         return false;
     }
-
-    // Ïðîâåðêà äîïóñòèìûõ ñèìâîëîâ(òîëüêî áóêâû)
+    
     for (char c : str) {
         if (!isalpha(c)) {
             std::cout << "Íåêîððåêòíûå ñèìâîëû â ëîãèíå. Ðàçðåøåíû òîëüêî áóêâû A-Z, a-z\n";
@@ -22,7 +20,6 @@ bool CheckLogin(const std::string& str)
         }
     }
 
-    // Óíèêàëüíîñòü
     for (const auto& user : users) {
         if (user.login == str) {
          
@@ -33,14 +30,12 @@ bool CheckLogin(const std::string& str)
     return true;
 }
 
-// Ïðîâåðêà pass
 bool CheckPass(const std::string& str) {
     if (str.size() < 5 || str.size() > 64) {
-        std::cout << "Íåäîïóñòèìàÿ äëèíà ïàðîëÿ! Îò 5 äî 64 ñèìâîëîâ\n";
+        std::cout << "Ошибка ввода пароля\n";
         return false;
     }
 
-    // ñèìâîëû ascii
     std::unordered_set<char> allowed;
     for (char c = '!'; c <= '~'; ++c) {
         allowed.insert(c);
@@ -53,7 +48,6 @@ bool CheckPass(const std::string& str) {
         }
     }
 
-    // Ñïåöèàëüíûå ñèìâîëû
     std::unordered_set<char> special = {
         '!', '@', '#', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+',
         '/', '?', '|', '\\', '\"', '\'', ',', '.', '>', '<', '~', '`', ':',
@@ -103,7 +97,6 @@ bool Login() {
                 std::cout << "Ââåäèòå ïàðîëü: ";
                 Getline(pass);
 
-                // Ïîèñê â âåêòîðå
                 bool found = false;
                 for (const auto& user : users) {
                     if (user.login == login && user.password == pass) {
@@ -122,12 +115,11 @@ bool Login() {
             }
         }
         else if (choose == "2") {
-            // Ðåãèñòðàöèÿ
             RegisterUser();
       
         }
         else {
-            Err(); // íåâåðíûé ââîä
+            Err(); 
         }
     }
 }
@@ -136,7 +128,6 @@ void RegisterUser()
 {
     std::string login, pass;
 
-    // Ââîä ëîãèíà
     while (true) {
         system("cls");
         std::cout << "\t=== Ðåãèñòðàöèÿ íîâîãî ïîëüçîâàòåëÿ ===\n";
@@ -148,8 +139,7 @@ void RegisterUser()
         }
         if (CheckLogin(login)) break;
     }
-
-    // Ââîä ïàðîëÿ
+    
     while (true) {
         system("cls");
         std::cout << "\n=== ÊÐÈÏÒÎÃÐÀÔÈ×ÅÑÊÈÉ ÒÐÅÍÀÆ¨Ð ===\n";
