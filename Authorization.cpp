@@ -9,7 +9,7 @@ bool CheckLogin(const std::string& str)
     // Check length
     if (str.size() < 5 || str.size() > 20) {
         std::cout << "Invalid login length. Must be between 5 and 20 characters.\n";
-        Sleep(1500);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         return false;
     }
 
@@ -17,7 +17,7 @@ bool CheckLogin(const std::string& str)
     for (char c : str) {
         if (!isalpha(c)) {
             std::cout << "Invalid characters in login. Only letters A-Z, a-z are allowed.\n";
-            Sleep(1500);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             return false;
         }
     }
@@ -26,7 +26,7 @@ bool CheckLogin(const std::string& str)
     for (const auto& user : users) {
         if (user.login == str) {
             std::cout << "User with this login already exists!\n";
-            Sleep(1500);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             return false;
         }
     }
@@ -37,7 +37,7 @@ bool CheckLogin(const std::string& str)
 bool CheckPass(const std::string& str) {
     if (str.size() < 5 || str.size() > 64) {
         std::cout << "Invalid password length! Must be between 5 and 64 characters.\n";
-        Sleep(1500);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         return false;
     }
 
@@ -50,7 +50,7 @@ bool CheckPass(const std::string& str) {
     for (char c : str) {
         if (allowed.find(c) == allowed.end()) {
             std::cout << "Invalid characters in password. Only printable ASCII characters allowed.\n";
-            Sleep(1500);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             return false;
         }
     }
@@ -72,7 +72,7 @@ bool CheckPass(const std::string& str) {
 
     if (specialCount < 3) {
         std::cout << "At least 3 special characters are required.\n";
-        Sleep(1500);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         return false;
     }
 
@@ -86,9 +86,9 @@ bool Login() {
     {
         std::cout << "\n=== CRYPTOGRAPHIC TRAINER ===\n";
         std::cout << "\n=== Login ===\n";
-        std::cout << "1 � Login\n";
-        std::cout << "2 � Register\n";
-        std::cout << "0 � Exit\n";
+        std::cout << "1) Login\n";
+        std::cout << "2) Register\n";
+        std::cout << "0) Exit\n";
         std::cout << "Your choice: ";
         Getline(choose);
 
@@ -144,7 +144,7 @@ void RegisterUser()
         Getline(login);
         if (login == "exit" || login == "Exit") {
             std::cout << "Registration cancelled.\n";
-            Sleep(1500);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             return;
         }
         if (CheckLogin(login)) break;
@@ -159,7 +159,7 @@ void RegisterUser()
         Getline(pass);
         if (pass == "exit" || pass == "Exit") {
             std::cout << "Registration cancelled.\n";
-            Sleep(1500);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
             return;
         }
         if (CheckPass(pass)) break;
