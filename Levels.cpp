@@ -2,8 +2,6 @@
 #include "CryptoTestEasy.h"
 #include "Ciphers.h"
 
-
-
 static std::vector<std::string> encryptedMessages;
 
 static void printHex(const std::string& s) {
@@ -15,10 +13,10 @@ static void printHex(const std::string& s) {
 
 static void printStored() {
     if (encryptedMessages.empty()) {
-        std::cout << "Нет сохранённых зашифрованных сообщений.\n";
+        std::cout << "No saved encrypted messages.\n";
         return;
     }
-    std::cout << "Сохранённые зашифрованные сообщения:\n";
+    std::cout << "Saved encrypted messages:\n";
     for (size_t i = 0; i < encryptedMessages.size(); ++i) {
         std::cout << i + 1 << ": ";
         printHex(encryptedMessages[i]);
@@ -48,85 +46,85 @@ static int getChoice(const std::string& prompt, int min, int max) {
 }
 
 static void caesarHandler(int level) {
-    int action = getChoice("1 – зашифровать, 2 – расшифровать, 0 – назад: ", 0, 2);
+    int action = getChoice("1 � encrypt, 2 � decrypt, 0 � back: ", 0, 2);
     if (action == 0) return;
     if (action == 1) {
-        std::string text = getInput("Введите текст: ");
-        int shift = (level == 2) ? 3 : getChoice("Введите сдвиг (1-25): ", 1, 25);
+        std::string text = getInput("Enter text: ");
+        int shift = (level == 2) ? 3 : getChoice("Enter shift (1-25): ", 1, 25);
         if (shift == -1) return;
         std::string enc = caesarEncrypt(text, shift);
         encryptedMessages.push_back(enc);
-        std::cout << "Зашифровано: ";
+        std::cout << "Encrypted: ";
         printHex(enc);
-        std::cout << " (номер " << encryptedMessages.size() << ")\n";
+        std::cout << " (index " << encryptedMessages.size() << ")\n";
     }
     else {
         if (encryptedMessages.empty()) {
-            std::cout << "Нет сохранённых сообщений.\n";
+            std::cout << "No saved messages.\n";
             return;
         }
         printStored();
-        int idx = getChoice("Выберите номер: ", 1, encryptedMessages.size());
+        int idx = getChoice("Choose index: ", 1, encryptedMessages.size());
         if (idx == -1) return;
-        int shift = (level == 2) ? 3 : getChoice("Введите сдвиг (1-25): ", 1, 25);
+        int shift = (level == 2) ? 3 : getChoice("Enter shift (1-25): ", 1, 25);
         if (shift == -1) return;
         std::string dec = caesarDecrypt(encryptedMessages[idx - 1], shift);
-        std::cout << "Расшифровано: " << dec << "\n";
+        std::cout << "Decrypted: " << dec << "\n";
     }
 }
 
 static void atbashHandler(int level) {
-    int action = getChoice("1 – зашифровать, 2 – расшифровать, 0 – назад: ", 0, 2);
+    int action = getChoice("1 � encrypt, 2 � decrypt, 0 � back: ", 0, 2);
     if (action == 0) return;
     if (action == 1) {
-        std::string text = getInput("Введите текст: ");
+        std::string text = getInput("Enter text: ");
         std::string enc = atbash(text);
         encryptedMessages.push_back(enc);
-        std::cout << "Зашифровано: ";
+        std::cout << "Encrypted: ";
         printHex(enc);
-        std::cout << " (номер " << encryptedMessages.size() << ")\n";
+        std::cout << " (index " << encryptedMessages.size() << ")\n";
     }
     else {
         if (encryptedMessages.empty()) {
-            std::cout << "Нет сохранённых сообщений.\n";
+            std::cout << "No saved messages.\n";
             return;
         }
         printStored();
-        int idx = getChoice("Выберите номер: ", 1, encryptedMessages.size());
+        int idx = getChoice("Choose index: ", 1, encryptedMessages.size());
         if (idx == -1) return;
         std::string dec = atbash(encryptedMessages[idx - 1]);
-        std::cout << "Расшифровано: " << dec << "\n";
+        std::cout << "Decrypted: " << dec << "\n";
     }
 }
 
 static void xorHandler(int level) {
-    int action = getChoice("1 – зашифровать, 2 – расшифровать, 0 – назад: ", 0, 2);
+    int action = getChoice("1 � encrypt, 2 � decrypt, 0 � back: ", 0, 2);
     if (action == 0) return;
     if (action == 1) {
-        std::string text = getInput("Введите текст: ");
+        std::string text = getInput("Enter text: ");
         std::string enc;
         if (level == 2) {
             char key = 'K';
             enc = xorEncrypt(text, key);
         }
         else {
-            std::string key = getInput("Введите ключ-строку: ");
+            std::string key = getInput("Enter key string: ");
             enc = text;
             for (size_t i = 0; i < text.size(); ++i)
                 enc[i] = text[i] ^ key[i % key.size()];
         }
         encryptedMessages.push_back(enc);
-        std::cout << "Зашифровано: ";
+        std::cout << "Encrypted: ";
         printHex(enc);
-        std::cout << " (номер " << encryptedMessages.size() << ")\n";
+        std::cout << " (index " << encryptedMessages.size() << ")\n";
     }
     else {
         if (encryptedMessages.empty()) {
-            std::cout << "Нет сохранённых сообщений.\n";
+            std::cout << "No saved messages.\n";
             return;
         }
         printStored();
-        int idx = getChoice("Выберите номер: ", 1, encryptedMessages.size());
+        int idx = getChoice("Choose index: ", 1, encryptedMessages.size());
         if (idx == -1) return;
         std::string cipher = encryptedMessages[idx - 1];
         std::string dec;
@@ -135,90 +133,90 @@ static void xorHandler(int level) {
             dec = xorDecrypt(cipher, key);
         }
         else {
-            std::string key = getInput("Введите ключ-строку: ");
+            std::string key = getInput("Enter key string: ");
             dec = cipher;
             for (size_t i = 0; i < cipher.size(); ++i)
                 dec[i] = cipher[i] ^ key[i % key.size()];
         }
-        std::cout << "Расшифровано: " << dec << "\n";
+        std::cout << "Decrypted: " << dec << "\n";
     }
 }
 
 static void swapHandler(int level) {
-    int action = getChoice("1 – зашифровать, 2 – расшифровать, 0 – назад: ", 0, 2);
+    int action = getChoice("1 � encrypt, 2 � decrypt, 0 � back: ", 0, 2);
     if (action == 0) return;
     if (action == 1) {
-        std::string text = getInput("Введите текст: ");
+        std::string text = getInput("Enter text: ");
         std::string enc = swapNibbles(text);
         encryptedMessages.push_back(enc);
-        std::cout << "Зашифровано: ";
+        std::cout << "Encrypted: ";
         printHex(enc);
-        std::cout << " (номер " << encryptedMessages.size() << ")\n";
+        std::cout << " (index " << encryptedMessages.size() << ")\n";
     }
     else {
         if (encryptedMessages.empty()) {
-            std::cout << "Нет сохранённых сообщений.\n";
+            std::cout << "No saved messages.\n";
             return;
         }
         printStored();
-        int idx = getChoice("Выберите номер: ", 1, encryptedMessages.size());
+        int idx = getChoice("Choose index: ", 1, encryptedMessages.size());
         if (idx == -1) return;
         std::string dec = swapNibbles(encryptedMessages[idx - 1]);
-        std::cout << "Расшифровано: " << dec << "\n";
+        std::cout << "Decrypted: " << dec << "\n";
     }
 }
 
 static void cbcHandler(int level) {
-    int action = getChoice("1 – зашифровать, 2 – расшифровать, 0 – назад: ", 0, 2);
+    int action = getChoice("1 � encrypt, 2 � decrypt, 0 � back: ", 0, 2);
     if (action == 0) return;
     if (action == 1) {
-        std::string text = getInput("Введите текст: ");
+        std::string text = getInput("Enter text: ");
         char iv;
         if (level == 2) {
             iv = 'I';
         }
         else {
-            std::string ivStr = getInput("Введите IV (один символ): ");
+            std::string ivStr = getInput("Enter IV (one character): ");
             iv = ivStr.empty() ? 'I' : ivStr[0];
         }
         std::string enc = cbcEncrypt(text, iv);
         encryptedMessages.push_back(enc);
-        std::cout << "Зашифровано: ";
+        std::cout << "Encrypted: ";
         printHex(enc);
-        std::cout << " (номер " << encryptedMessages.size() << ")\n";
+        std::cout << " (index " << encryptedMessages.size() << ")\n";
     }
     else {
         if (encryptedMessages.empty()) {
-            std::cout << "Нет сохранённых сообщений.\n";
+            std::cout << "No saved messages.\n";
             return;
         }
         printStored();
-        int idx = getChoice("Выберите номер: ", 1, encryptedMessages.size());
+        int idx = getChoice("Choose index: ", 1, encryptedMessages.size());
         if (idx == -1) return;
         char iv;
         if (level == 2) {
             iv = 'I';
         }
         else {
-            std::string ivStr = getInput("Введите IV (один символ): ");
+            std::string ivStr = getInput("Enter IV (one character): ");
             iv = ivStr.empty() ? 'I' : ivStr[0];
         }
         std::string dec = cbcDecrypt(encryptedMessages[idx - 1], iv);
-        std::cout << "Расшифровано: " << dec << "\n";
+        std::cout << "Decrypted: " << dec << "\n";
     }
 }
 
 void runLevel(int level) {
-    std::cout << "\n=== Песочница (уровень " << level << ") ===\n";
+    std::cout << "\n=== Sandbox (level " << level << ") ===\n";
     while (true) {
-        std::cout << "\nВыберите шифр:\n";
-        std::cout << "1 – Цезарь\n";
-        std::cout << "2 – Атбаш\n";
-        std::cout << "3 – XOR\n";
-        std::cout << "4 – Перестановка тетрад (Swap Nibbles)\n";
-        std::cout << "5 – Простой CBC\n";
-        std::cout << "0 – Выход в главное меню\n";
-        std::cout << "Ваш выбор: ";
+        std::cout << "\nChoose cipher:\n";
+        std::cout << "1 � Caesar\n";
+        std::cout << "2 � Atbash\n";
+        std::cout << "3 � XOR\n";
+        std::cout << "4 � Nibble Swap\n";
+        std::cout << "5 � Simple CBC\n";
+        std::cout << "0 � Back to main menu\n";
+        std::cout << "Your choice: ";
         std::string choiceStr;
         Getline(choiceStr);
         if (choiceStr == "exit" || choiceStr == "Exit") return;
@@ -238,5 +236,3 @@ void runLevel(int level) {
         }
     }
 }
-
-
