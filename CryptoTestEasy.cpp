@@ -1,7 +1,6 @@
 #include "CryptoTestEasy.h"
 #include "Ciphers.h"
 
-
 static std::string randomWord() {
     static const std::vector<std::string> words = {
         "hello", "world", "crypto", "security", "algorithm", "programming",
@@ -24,18 +23,18 @@ void Test() {
     int shift = rand() % 25 + 1;
     std::string cipher = caesarEncrypt(original, shift);
 
-    std::cout << "\n=== Задача 1: Шифр Цезаря ===\n";
-    std::cout << "Зашифрованное слово: " << cipher << "\n";
-    std::cout << "Введите расшифрованное слово (или 'exit'): ";
+    std::cout << "\n=== Task 1: Caesar Cipher ===\n";
+    std::cout << "Encrypted word: " << cipher << "\n";
+    std::cout << "Enter decrypted word (or 'exit'): ";
     std::string answer;
     Getline(answer);
 
     if (answer == "exit" || answer == "Exit") return;
     if (toLower(answer) == original) {
-        std::cout << "Правильно!\n";
+        std::cout << "Correct!\n";
     }
     else {
-        std::cout << "Неправильно.\n";
+        std::cout << "Wrong.\n";
     }
 }
 
@@ -43,18 +42,18 @@ void TestTwo() {
     std::string original = randomWord();
     std::string cipher = atbash(original);
 
-    std::cout << "\n=== Задача 2: Шифр Атбаш ===\n";
-    std::cout << "Зашифрованное слово: " << cipher << "\n";
-    std::cout << "Введите расшифрованное слово (или 'exit'): ";
+    std::cout << "\n=== Task 2: Atbash Cipher ===\n";
+    std::cout << "Encrypted word: " << cipher << "\n";
+    std::cout << "Enter decrypted word (or 'exit'): ";
     std::string answer;
     Getline(answer);
 
     if (answer == "exit" || answer == "Exit") return;
     if (toLower(answer) == original) {
-        std::cout << "Правильно!\n";
+        std::cout << "Correct!\n";
     }
     else {
-        std::cout << "Неправильно.\n";
+        std::cout << "Wrong.\n";
     }
 }
 
@@ -63,21 +62,21 @@ void TestFree() {
     std::string original = randomWord();
     std::string cipher = xorEncrypt(original, key);
 
-    std::cout << "\n=== Задача 3: XOR-шифрование ===\n";
-    std::cout << "Зашифрованное слово (hex): ";
+    std::cout << "\n=== Task 3: XOR Encryption ===\n";
+    std::cout << "Encrypted word (hex): ";
     for (unsigned char c : cipher) {
         std::cout << std::hex << (int)c << " ";
     }
-    std::cout << "\nВведите расшифрованное слово (или 'exit'): ";
+    std::cout << "\nEnter decrypted word (or 'exit'): ";
     std::string answer;
     Getline(answer);
 
     if (answer == "exit" || answer == "Exit") return;
     if (toLower(answer) == original) {
-        std::cout << "Правильно!\n";
+        std::cout << "Correct!\n";
     }
     else {
-        std::cout << "Неправильно.\n";
+        std::cout << "Wrong.\n";
     }
 }
 
@@ -85,21 +84,21 @@ void TestFour() {
     std::string original = randomWord();
     std::string cipher = swapNibbles(original);
 
-    std::cout << "\n=== Задача 4: Перестановка тетрад ===\n";
-    std::cout << "Зашифрованное слово (hex): ";
+    std::cout << "\n=== Task 4: Nibble Swap ===\n";
+    std::cout << "Encrypted word (hex): ";
     for (unsigned char c : cipher) {
         std::cout << std::hex << (int)c << " ";
     }
-    std::cout << "\nВведите расшифрованное слово (или 'exit'): ";
+    std::cout << "\nEnter decrypted word (or 'exit'): ";
     std::string answer;
     Getline(answer);
 
     if (answer == "exit" || answer == "Exit") return;
     if (toLower(answer) == original) {
-        std::cout << "Правильно!\n";
+        std::cout << "Correct!\n";
     }
     else {
-        std::cout << "Неправильно.\n";
+        std::cout << "Wrong.\n";
     }
 }
 
@@ -108,23 +107,20 @@ void TestFive() {
     std::string original = randomWord();
     std::string cipher = cbcEncrypt(original, iv);
 
-    std::cout << "\n=== Задача 5: Блочное шифрование (CBC) ===\n";
-    std::cout << "Зашифрованное слово (hex): ";
+    std::cout << "\n=== Task 5: CBC Mode ===\n";
+    std::cout << "Encrypted word (hex): ";
     for (unsigned char c : cipher) {
         std::cout << std::hex << (int)c << " ";
     }
-    std::cout << "\nВведите расшифрованное слово (или 'exit'): ";
+    std::cout << "\nEnter decrypted word (or 'exit'): ";
     std::string answer;
     Getline(answer);
 
     if (answer == "exit" || answer == "Exit") return;
     if (toLower(answer) == original) {
-        std::cout << "Правильно!\n";
+        std::cout << "Correct!\n";
     }
     else {
-        std::cout << "Неправильно.\n";
+        std::cout << "Wrong.\n";
     }
 }
-
-
-

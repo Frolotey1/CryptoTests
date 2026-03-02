@@ -5,17 +5,17 @@ void RunApplication() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     if (!Login()) {
-        std::cout << "¬ыход из программы.\n";
+        std::cout << "Exiting program.\n";
         return;
     }
 
     while (true) {
-        std::cout << "\n===  –»ѕ“ќ√–ј‘»„≈— »… “–≈Ќј∆®– ===\n";
-        std::cout << "1 Ц ЋЄгкий тренинг (случайные задачи)\n";
-        std::cout << "2 Ц ‘иксированные тесты (русские)\n";
-        std::cout << "3 Ц ѕесочница (уровни 2 и 3)\n";
-        std::cout << "0 Ц ¬ыход\n";
-        std::cout << "¬аш выбор: ";
+        std::cout << "\n=== CRYPTOGRAPHIC TRAINER ===\n";
+        std::cout << "1 Ц Easy training (random tasks)\n";
+        std::cout << "2 Ц Fixed tests (Russian tasks)\n";
+        std::cout << "3 Ц Sandbox (levels 2 and 3)\n";
+        std::cout << "0 Ц Exit\n";
+        std::cout << "Your choice: ";
         std::string choice;
         Getline(choice);
         if (choice == "0") break;
@@ -26,9 +26,9 @@ void RunApplication() {
         int opt = std::stoi(choice);
 
         if (opt == 1) {
-            std::cout << "1 Ц ¬ыбрать задачу (1-5)\n";
-            std::cout << "2 Ц —лучайна€ задача\n";
-            std::cout << "¬аш выбор: ";
+            std::cout << "1 Ц Choose task (1-5)\n";
+            std::cout << "2 Ц Random task\n";
+            std::cout << "Your choice: ";
             Getline(choice);
             if (!IsNumber(choice)) {
                 Err();
@@ -36,7 +36,7 @@ void RunApplication() {
             }
             int sub = std::stoi(choice);
             if (sub == 1) {
-                std::cout << "¬ведите номер задачи (1-5): ";
+                std::cout << "Enter task number (1-5): ";
                 Getline(choice);
                 if (!IsNumber(choice)) {
                     Err();
@@ -57,7 +57,7 @@ void RunApplication() {
             }
             else if (sub == 2) {
                 int r = std::rand() % 5 + 1;
-                std::cout << "—лучайна€ задача є" << r << "\n";
+                std::cout << "Random task #" << r << "\n";
                 switch (r) {
                 case 1: Test(); break;
                 case 2: TestTwo(); break;
@@ -71,7 +71,7 @@ void RunApplication() {
             }
         }
         else if (opt == 2) {
-            std::cout << "¬ыберите тест (1-5): ";
+            std::cout << "Choose test (1-5): ";
             Getline(choice);
             if (!IsNumber(choice)) {
                 Err();
@@ -86,7 +86,7 @@ void RunApplication() {
             else Err();
         }
         else if (opt == 3) {
-            std::cout << "¬ыберите уровень (2 или 3): ";
+            std::cout << "Choose level (2 or 3): ";
             Getline(choice);
             if (!IsNumber(choice)) {
                 Err();
@@ -100,10 +100,8 @@ void RunApplication() {
                 Err();
             }
         }
-
         else {
             Err();
         }
     }
 }
-
